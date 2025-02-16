@@ -21,7 +21,7 @@ export const CategoryTodo = (props) => {
   <div className="w-full flex py-5 items-start max-h-full">
    {/* Container utama */}
    <div className="group py-5 rounded-xl shadow-md w-full bg-white/5 max-h-full overflow-hidden">
-    {/* <h2 className="text-lg font-semibold mb-2 px-5">List</h2> */}
+    <h2 className="text-lg font-semibold mb-2 px-5">List</h2>
 
     {/* List kategori dengan efek hover untuk menampilkan scrollbar */}
     <ul className="bg-linear-to-t scrollbar-hidden max-h-72 overflow-hidden sm:hover:overflow-y-auto overflow-y-auto">

@@ -202,7 +202,7 @@ export const TodoWrapper = () => {
 
  return (
   <div className="min-h-screen bg-[#f4f6ff] dark:bg-[#0b192c] ">
-   <div className="w-full grid grid-cols-12 justify-center text-slate-800 sm:min-h-screen p-4">
+   <div className="w-full grid grid-cols-12 justify-center text-slate-800 sm:min-h-screen">
     {/* Sidebar Toggle Navbar Android */}
     <nav className="z-40 flex justify-between sm:justify-end text-black/50 dark:text-white/50 w-full backdrop-blur-xs py-4 px-8 focus:outline-none top-0 left-0 fixed">
      <button onClick={() => setIsOpenSidebar(!isOpenSidebar)} className="inline sm:hidden">
@@ -234,7 +234,7 @@ export const TodoWrapper = () => {
      <div className="w-full flex px-5 pt-11 sm:pt-8 flex-col dark:bg-black/15 light:bg-[#021526] ">
       <h1 className="text-2xl font-bold mb-4 text-center">To-Do List</h1>
       <div className="min-h-screen flex p-5 flex-col">
-       <FormInput funcInput={addCategory} label="Category" placeholder={"Make Your Happier Day!"} />
+       <FormInput funcInput={addCategory} placeholder={"Make Your Happier Day!"} />
        <CategoryTodo
         selectCategory={setSelectedCategory}
         handleEdit={handleEdit}
@@ -251,7 +251,7 @@ export const TodoWrapper = () => {
 
     <div className="md:col-span-4 col-auto"></div>
 
-    <div className="w-full h-full p-5 flex flex-col dark:text-slate-300 pt-12 col-span-12 md:col-span-8 text-center sm:px-32">
+    <div className="w-full min-h-screen p-5 flex flex-col dark:text-slate-300 pt-18 col-span-12 md:col-span-8 text-center sm:px-32">
      <h1 className="w-full text-3xl text-center ">Get Things Done!</h1>
      {selectedCategory ? (
       <div className="text-lg flex flex-col items-center w-full">
@@ -265,7 +265,8 @@ export const TodoWrapper = () => {
         </button>
        </div>
        {sortedTodos.length === 0 ? (
-        <h1 className="my-28 text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
+        <div className="my-72 md:my-24 flex items-center">
+          <h1 className="text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10">
           <path
            fillRule="evenodd"
@@ -275,6 +276,7 @@ export const TodoWrapper = () => {
          </svg>
          No Items
         </h1>
+        </div>
        ) : (
         sortedTodos.map((value) =>
          value.isEdited ? (
@@ -305,8 +307,8 @@ export const TodoWrapper = () => {
       </div>
      ) : (
       <div className="w-full h-full flex justify-center items-center">
-       <h1 className="my-28 text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+       <h1 className="my-20 text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex flex-col sm:flex-row items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-12">
          <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
          <path
           fillRule="evenodd"
@@ -314,7 +316,7 @@ export const TodoWrapper = () => {
           clipRule="evenodd"
           />
         </svg>
-          Oops! You need to select a category
+          Oops! Please input your Category
        </h1>
       </div>
      )}

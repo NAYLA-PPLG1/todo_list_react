@@ -19,7 +19,7 @@ const FormRegister = () => {
    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
    const user = userCredential.user;
 
-   await updateProfile(userCredential.user, { displayName });
+   await updateProfile(user, { displayName });
    await setDoc(doc(db, "users", user.uid), {
     username: displayName,
     email,
