@@ -4,30 +4,15 @@ export const TodoItem = (props) => {
  const { task, handleDelete, toggleTaskEdit, onCompleted } = props;
  const [priority, setPriority] = useState(task.priority);
 
-//  useEffect(() => {
-//   switch (task.priority) {
-//    case "High":
-//     setPriority("red");
-//     break;
-//    case "Medium":
-//     setPriority("yellow");
-//     break;
-//    default:
-//     setPriority("green");
-//     break;
-//   }
-//  }, [task.priority]);
-
- console.log(priority);
  return (
   <div className="group w-full">
    <div
     className={`relative w-full mt-5 flex items-center justify-between p-4 rounded-lg cursor-pointer border border-gray-300 dark:border-gray-700
-        bg-white dark:bg-gray-800  transition-all duration-300 ease-in-out
+        bg-slate-600 dark:bg-gray-800  transition-all duration-300 ease-in-out
         group-hover:scale-105
         group-hover:shadow-md group-hover:shadow-[#066D94]
         hover:scale-105 hover:shadow-md hover:shadow-[#066D94] hover:outline-none
-        hover:ring-2 hover:ring-[#066D94] hover:ring-opacity-50`}
+        dark:hover:ring-2 hover:ring-[#066D94] hover:ring-opacity-50`}
    >
     {/* Checkbox & Text */}
     <div className="flex items-center gap-3 w-full" onClick={() => onCompleted(task.id, task.isCompleted)}>
@@ -38,10 +23,10 @@ export const TodoItem = (props) => {
       className="w-6 h-6 appearance-none border-2 border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110 relative
     before:content-['✔'] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:scale-0 before:text-white checked:before:scale-100"
      />
-     <div className="flex w-full justify-between pr-10">
-      <div className="flex flex-col gap-0.5 ml-3">
+     <div className="flex w-full justify-between pr-4">
+      <div className="flex flex-col gap-0.5 ml-3 align-top">
        <span
-        className={`text-2xl sm:text-xl tracking-wider text-start font-semibold transition-all duration-200 ${
+        className={`text-md sm:text-xl tracking-wider text-start font-semibold transition-all duration-200 ${
          task.isCompleted
           ? "line-through text-white/20"
           : "text-white/80 group-hover:text-white group-hover:[text-shadow:_0_0_5px_rgb(125,211,252)]"

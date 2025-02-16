@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -11,7 +10,7 @@ const navigation = [
   { name: 'Company', href: '#' },
 ]
 
-export default function LandingPages() {
+const LandingPages = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   document.title = "BEST DAY"
 
@@ -149,3 +148,5 @@ export default function LandingPages() {
     </div>
   )
 }
+
+export default LandingPages;

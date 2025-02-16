@@ -28,7 +28,6 @@ const FormRegister = () => {
    });
    alert("Register Succesfully! now go straight to the page");
    window.location.href = "/pages/home"
-   console.log(displayName)
   } catch (error) {
    console.error("Error registrasi: ", error);
    alert("Terjadi kesalahan saat registrasi.");
@@ -36,10 +35,10 @@ const FormRegister = () => {
  };
 
  return (
-  <div className="w-full justify-center items-center">
-   <form onSubmit={handleRegister} className="col-span-3 sm:col-span-1 flex-col gap-5 mt-5 grid grid-rows-3">
+  <div className="w-full justify-center items-center dark:text-white/80 text-black/60">
+   <form onSubmit={handleRegister} className="col-span-3  sm:col-span-1 flex-col gap-5 mt-5 grid grid-rows-3">
     <div>
-     <p className="text-md md:text-xl">Username</p>
+     <p className="text-md">Username</p>
      <input
       className="border border-slate-400 shadow-md p-3 w-full rounded-xl"
       type="text"
@@ -49,7 +48,7 @@ const FormRegister = () => {
     </div>
 
     <div>
-     <p className="text-md md:text-xl">Email</p>
+     <p className="text-md">Email</p>
      <input
       className="border border-slate-400 shadow-md p-3 w-full rounded-xl"
       type="email"
@@ -59,7 +58,7 @@ const FormRegister = () => {
     </div>
 
     <div>
-     <p className="text-md md:text-xl">Password</p>
+     <p className="text-md">Password</p>
      <input
       className="border border-slate-400 shadow-md p-3 w-full rounded-xl"
       type="password"

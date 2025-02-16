@@ -19,7 +19,6 @@ import { CategoryTodo } from "../components/Fragments/CategoryTodo";
 import { ModalConfirm } from "../components/Elements/ModalConfirm";
 import { ModalInputTask } from "../components/Elements/ModalInputTask";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { Navigate } from "react-router-dom";
 
 export const TodoWrapper = () => {
  const [categories, setCategories] = useState([]);
@@ -40,41 +39,40 @@ export const TodoWrapper = () => {
 
  useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user_log) => {
-      setUser(user_log);
+   if (!user_log) {
+    alert("You need to be logged in!");
+    window.location.href = "/auth/login";
+   } else {
+    setUser(user_log);
+   }
   });
-
   return () => unsubscribe();
-}, []);
-if (!user) {
-  return <Navigate to="/auth/login" />;
-}
+ }, []);
 
-
-
-useEffect(() => {
+ useEffect(() => {
   if (user) {
-    const fetchCategories = async () => {
-      try {
-        const q = query(collection(db, "todoGroups"), where("userUid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        const categoriesData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setCategories(categoriesData);
+   const fetchCategories = async () => {
+    try {
+     const q = query(collection(db, "todoGroups"), where("userUid", "==", user.uid));
+     const querySnapshot = await getDocs(q);
+     const categoriesData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+     }));
+     setCategories(categoriesData);
 
-        // If no categories, set the first one as the selected category
-        if (categoriesData.length > 0) {
-          setSelectedCategory(categoriesData[0].id);
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+     // If no categories, set the first one as the selected category
+     if (categoriesData.length > 0) {
+      setSelectedCategory(categoriesData[0].id);
+     }
+    } catch (error) {
+     console.error("Error fetching categories:", error);
+    }
+   };
 
-    fetchCategories();
+   fetchCategories();
   }
-}, [user]); 
+ }, [user]);
  useEffect(() => {
   if (!selectedCategory) return;
   const unsubscribe = onSnapshot(collection(db, "todoGroups", selectedCategory, "todos"), (snapshot) => {
@@ -140,10 +138,8 @@ useEffect(() => {
  const handleLogout = async () => {
   try {
    if (user) {
-    const confirmation = window.confirm(`Are you sure you want to logout, ${user.displayName}?`);
-    if (confirmation) {
+    if (toggleLogout) {
      await signOut(auth);
-     alert("You have been logged out.");
      window.location.href = "/";
     }
    } else {
@@ -204,47 +200,16 @@ useEffect(() => {
   return priorityOrder[a.priority] - priorityOrder[b.priority];
  });
 
-
  return (
-  <div className="min-h-screen dark:bg-[#0b192c]">
+  <div className="min-h-screen bg-[#f4f6ff] dark:bg-[#0b192c] ">
    <div className="w-full grid grid-cols-12 justify-center text-slate-800 sm:min-h-screen p-4">
     {/* Sidebar Toggle Navbar Android */}
-    <nav className="z-40 sm:hidden flex justify-between text-white/50 w-full backdrop-blur-xs py-4 px-8 focus:outline-none top-0 left-0 fixed">
-     <button onClick={() => setIsOpenSidebar(!isOpenSidebar)} className="">
-      <svg
-       className="w-6 h-6 text-white/50"
-       fill="none"
-       stroke="currentColor"
-       viewBox="0 0 24 24"
-       xmlns="http://www.w3.org/2000/svg"
-      >
+    <nav className="z-40 flex justify-between sm:justify-end text-black/50 dark:text-white/50 w-full backdrop-blur-xs py-4 px-8 focus:outline-none top-0 left-0 fixed">
+     <button onClick={() => setIsOpenSidebar(!isOpenSidebar)} className="inline sm:hidden">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
      </button>
-     {user ? (
-      <div className="flex items-center gap-4">
-       <h1>{user.displayName || user.email}</h1>
-       <button
-        type="button"
-        className="hover:bg-red-600 hover:text-white border-2 p-1 px-3 text-sm rounded-full border-red-600 text-red-600"
-        onClick={() => handleLogout()}
-       >
-        Login
-       </button>
-      </div>
-     ) : (
-      <button
-       type="button"
-       className="hover:bg-blue-600 hover:text-white border-2 py-2 px-8 rounded-full border-blue-600 text-blue-600"
-       onClick={() => (window.location.href = "/auth/login")}
-      >
-       Log out
-      </button>
-     )}
-    </nav>
-
-    {/* Nav resposive desktop */}
-    <nav className="z-30 sm:flex gap-3 py-4 px-8 items-center justify-end text-white/50 hidden w-full backdrop-blur-xs focus:outline-none top-0 left-0 fixed">
      {user && (
       <div className="flex items-center gap-4">
        <h1>{user.displayName || user.email}</h1>
@@ -258,6 +223,8 @@ useEffect(() => {
       </div>
      )}
     </nav>
+
+    {/* Nav resposive desktop */}
 
     <aside
      className={`z-40 fixed sm:p-0 pl-10 inset-y-0 left-0 md:1/4 bg-[#0B192C] lg:w-1/3 text-slate-300 transition-transform transform ${
@@ -286,7 +253,7 @@ useEffect(() => {
 
     <div className="w-full h-full p-5 flex flex-col dark:text-slate-300 pt-12 col-span-12 md:col-span-8 text-center sm:px-32">
      <h1 className="w-full text-3xl text-center ">Get Things Done!</h1>
-     {selectedCategory && (
+     {selectedCategory ? (
       <div className="text-lg flex flex-col items-center w-full">
        <p className="text-sm mt-3 ">Task at {categories.find((c) => c.id === selectedCategory)?.name}</p>
        <div className="w-full flex justify-end">
@@ -298,7 +265,7 @@ useEffect(() => {
         </button>
        </div>
        {sortedTodos.length === 0 ? (
-        <h1 className="my-28 text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
+        <h1 className="my-28 text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10">
           <path
            fillRule="evenodd"
@@ -336,6 +303,20 @@ useEffect(() => {
         )
        )}
       </div>
+     ) : (
+      <div className="w-full h-full flex justify-center items-center">
+       <h1 className="my-28 text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+         <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
+         <path
+          fillRule="evenodd"
+          d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.133 2.845a.75.75 0 0 1 1.06 0l1.72 1.72 1.72-1.72a.75.75 0 1 1 1.06 1.06l-1.72 1.72 1.72 1.72a.75.75 0 1 1-1.06 1.06L12 15.685l-1.72 1.72a.75.75 0 1 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Z"
+          clipRule="evenodd"
+          />
+        </svg>
+          Oops! You need to select a category
+       </h1>
+      </div>
      )}
     </div>
 
@@ -364,6 +345,7 @@ useEffect(() => {
      isOpen={toggleLogout}
      onClose={() => setToggleLogout(false)}
      onConfirm={() => handleLogout()}
+     buttonText={"Logout"}
     />
 
     <div

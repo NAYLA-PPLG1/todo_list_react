@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const FormLogin = () => {
  const [email, setEmail] = useState("");
- const [username, setUsername] = useState("");
+//  const [username, setUsername] = useState("");
  const [password, setPassword] = useState("");
  const navigate = useNavigate();
 
@@ -14,7 +14,6 @@ const FormLogin = () => {
   try {
    const usercredential = await signInWithEmailAndPassword(auth, email, password);
    const user = usercredential.user;
-   console.log(user)
    navigate("/pages/home");
    alert("Login Succesfully!");
   } catch (error) {
@@ -25,9 +24,9 @@ const FormLogin = () => {
 
  return (
   <div className="w-full justify-center items-center">
-   <form onSubmit={handleLogin} className="col-span-3 sm:col-span-1 flex-col gap-4 mt-5 grid grid-rows-3 items-end">
+   <form onSubmit={handleLogin} className="dark:text-white/80 text-black/60 col-span-3 sm:col-span-1 flex-col gap-4 mt-5 grid grid-rows-3 items-end">
     <div>
-     <label className="text-md md:text-xl">Email</label>
+     <label className=" text-md">Email</label>
      <input
       className="border border-slate-400 shadow-md p-3 w-full rounded-xl"
       type="email"
@@ -36,7 +35,7 @@ const FormLogin = () => {
      />
     </div>
     <div>
-     <label className="text-md md:text-xl">Password</label>
+     <label className=" text-md">Password</label>
      <input className="border border-slate-400 shadow-md p-3 w-full rounded-xl" type="password" placeholder="****" onChange={(e) => setPassword(e.target.value)} />
     </div>
     <button className="bg-blue-500 rounded-xl shadow-md h-12 text-white font-semibold" type="submit">
