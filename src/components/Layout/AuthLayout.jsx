@@ -81,15 +81,6 @@ const AuthLayout = (props) => {
        </p>
       )}
      </div>
-     {currentUser ? (
-      <button
-       type="button"
-       className="w-full mt-5 border-2 p-2 rounded-full border-red-600 text-red-600"
-       onClick={() => handleLogout()}
-      >
-       Log out
-      </button>
-     ) : null}
     </div>
    </div>
   </div>

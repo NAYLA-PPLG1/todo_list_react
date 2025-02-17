@@ -26,11 +26,10 @@ const FormRegister = () => {
     password,
     createAt: new Date(),
    });
-   alert("Register Succesfully! now go straight to the page");
+   alert("Register Succesfully! now go to the page");
    window.location.href = "/pages/home"
   } catch (error) {
-   console.error("Error registrasi: ", error);
-   alert("Terjadi kesalahan saat registrasi.");
+   alert("There was an error during registration");
   }
  };
 

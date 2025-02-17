@@ -13,12 +13,13 @@ const FormLogin = () => {
   event.preventDefault();
   try {
    const usercredential = await signInWithEmailAndPassword(auth, email, password);
-   const user = usercredential.user;
    navigate("/pages/home");
    alert("Login Succesfully!");
   } catch (error) {
-   console.error("Error login: ", error);
-   alert("Terjadi kesalahan saat login.");
+  //  alert("Incorrect email or password.");
+   console.error("Login error:", error.code, error.message);
+   alert(`Error: ${error.message}`);
+
   }
  };
 
@@ -39,7 +40,7 @@ const FormLogin = () => {
      <input className="border border-slate-400 shadow-md p-3 w-full rounded-xl" type="password" placeholder="****" onChange={(e) => setPassword(e.target.value)} />
     </div>
     <button className="bg-blue-500 rounded-xl shadow-md h-12 text-white font-semibold" type="submit">
-     Login
+     Sign In
     </button>
    </form>
   </div>

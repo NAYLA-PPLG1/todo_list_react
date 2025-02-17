@@ -49,21 +49,21 @@ export const ModalInputTask = ({ isOpen, onClose, onSubmit, value }) => {
 
           {/* Deskripsi Tugas */}
           <div className="mb-4">
-            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="todoTask">Tugas</label>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="todoTask">Task</label>
             <input
               id="todoTask"
               name="todoTask"
               value={task.todoTask}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              placeholder="Get Things Done!"
+              placeholder="Your Task"
               required
             />
           </div>
 
           {/* Tanggal */}
           <div className="mb-4">
-            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="dueDate">Tanggal</label>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="dueDate">Date</label>
             <input
               type="date"
               id="dueDate"
@@ -77,7 +77,7 @@ export const ModalInputTask = ({ isOpen, onClose, onSubmit, value }) => {
 
           {/* Prioritas */}
           <div className="mb-4">
-            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="priority">Prioritas</label>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300" htmlFor="priority">Priority</label>
             <select
               id="priority"
               name="priority"
@@ -85,9 +85,9 @@ export const ModalInputTask = ({ isOpen, onClose, onSubmit, value }) => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             >
-              <option value="Low">Rendah</option>
-              <option value="Medium">Sedang</option>
-              <option value="High">Tinggi</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
           </div>
 
@@ -98,13 +98,13 @@ export const ModalInputTask = ({ isOpen, onClose, onSubmit, value }) => {
               onClick={onClose}
               className="px-4 py-2 hover:opacity-80 border border-gray-300 dark:border-gray-600 rounded-md text-gray-600 dark:text-gray-200"
             >
-              Batal
+              Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 hover:opacity-80 bg-blue-500 text-white rounded-md dark:bg-blue-700"
+              className="px-6 py-2 hover:opacity-80 bg-blue-500 text-white rounded-md dark:bg-blue-700"
             >
-              {value ? 'Edit' : 'Tambah'}
+              {value ? 'Edit' : 'Add'}
             </button>
           </div>
         </form>

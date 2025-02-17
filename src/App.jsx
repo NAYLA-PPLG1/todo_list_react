@@ -22,7 +22,6 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<LandingPages />} />
-          <Route path="/load" element={<Loading />} />
 
           <Route path="/auth">
             <Route path="login" element={<Login />} />

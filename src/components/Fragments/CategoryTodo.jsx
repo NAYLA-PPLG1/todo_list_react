@@ -12,10 +12,11 @@ export const CategoryTodo = (props) => {
  };
  
  useEffect(() => {
-  if (listCategories.length > 0) {
+  if (listCategories.length > 0 && !isOpenCat) {
    setIsOpenCat(listCategories[0].id);
   }
- }, [listCategories]);
+ }, [listCategories, isOpenCat]);
+ 
 
  return (
   <div className="w-full flex py-5 items-start max-h-full">

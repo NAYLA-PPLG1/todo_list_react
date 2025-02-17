@@ -30,7 +30,6 @@ export const TodoWrapper = () => {
  // @function ModalDeleteConfirm at TodoItems
  const [IsModalOpen, setIsModalOpen] = useState(false);
  const [IdWasDelete, setIdWasDelete] = useState("");
-
  //Modal Task Input
  const [isOpenModalTask, setIsOpenModalTask] = useState(false);
 
@@ -40,7 +39,7 @@ export const TodoWrapper = () => {
  useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user_log) => {
    if (!user_log) {
-    alert("You need to be logged in!");
+    alert("You must be logged in!");
     window.location.href = "/auth/login";
    } else {
     setUser(user_log);
@@ -73,14 +72,13 @@ export const TodoWrapper = () => {
    fetchCategories();
   }
  }, [user]);
+
  useEffect(() => {
   if (!selectedCategory) return;
   const unsubscribe = onSnapshot(collection(db, "todoGroups", selectedCategory, "todos"), (snapshot) => {
    setTodos(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
   });
   return () => unsubscribe();
-
-  // setSelectedCategory((prevTask))
  }, [selectedCategory]);
 
  const addCategory = async (value) => {
@@ -126,8 +124,6 @@ export const TodoWrapper = () => {
    await updateDoc(useRef, {
     name: value.name,
    });
-
-   //Perbaru perubahan di UI, jadi gak kosong
    setCategories((prev) => prev.map((item) => (item.id === id ? { ...item, name: value.name } : item)));
   } catch (error) {
    console.error("ERROR 401:", error);
@@ -225,16 +221,19 @@ export const TodoWrapper = () => {
     </nav>
 
     {/* Nav resposive desktop */}
-
     <aside
      className={`z-40 fixed sm:p-0 pl-10 inset-y-0 left-0 md:1/4 bg-[#0B192C] lg:w-1/3 text-slate-300 transition-transform transform ${
       isOpenSidebar ? "-translate-x-14" : "-translate-x-full"
      } md:translate-x-0`}
     >
      <div className="w-full flex px-5 pt-11 sm:pt-8 flex-col dark:bg-black/15 light:bg-[#021526] ">
-      <h1 className="text-2xl font-bold mb-4 text-center">To-Do List</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Task Category</h1>
       <div className="min-h-screen flex p-5 flex-col">
-       <FormInput funcInput={addCategory} placeholder={"Make Your Happier Day!"} />
+       <FormInput
+        funcInput={addCategory}
+        placeholder={"Make Your Happier Day!"}
+        example="example: Daily, Weekly, Monthly"
+       />
        <CategoryTodo
         selectCategory={setSelectedCategory}
         handleEdit={handleEdit}
@@ -266,16 +265,16 @@ export const TodoWrapper = () => {
        </div>
        {sortedTodos.length === 0 ? (
         <div className="my-72 md:my-24 flex items-center">
-          <h1 className="text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
-         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10">
-          <path
-           fillRule="evenodd"
-           d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm-4.34 7.964a.75.75 0 0 1-1.061-1.06 5.236 5.236 0 0 1 3.73-1.538 5.236 5.236 0 0 1 3.695 1.538.75.75 0 1 1-1.061 1.06 3.736 3.736 0 0 0-2.639-1.098 3.736 3.736 0 0 0-2.664 1.098Z"
-           clipRule="evenodd"
-          />
-         </svg>
-         No Items
-        </h1>
+         <h1 className="text-black/30 dark:text-white/20 tracking-wider text-2xl text-center flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10">
+           <path
+            fillRule="evenodd"
+            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm-4.34 7.964a.75.75 0 0 1-1.061-1.06 5.236 5.236 0 0 1 3.73-1.538 5.236 5.236 0 0 1 3.695 1.538.75.75 0 1 1-1.061 1.06 3.736 3.736 0 0 0-2.639-1.098 3.736 3.736 0 0 0-2.664 1.098Z"
+            clipRule="evenodd"
+           />
+          </svg>
+          No Items
+         </h1>
         </div>
        ) : (
         sortedTodos.map((value) =>
@@ -314,9 +313,9 @@ export const TodoWrapper = () => {
           fillRule="evenodd"
           d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.133 2.845a.75.75 0 0 1 1.06 0l1.72 1.72 1.72-1.72a.75.75 0 1 1 1.06 1.06l-1.72 1.72 1.72 1.72a.75.75 0 1 1-1.06 1.06L12 15.685l-1.72 1.72a.75.75 0 1 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Z"
           clipRule="evenodd"
-          />
+         />
         </svg>
-          Oops! Please input your Category
+        Oops! Please input your Category
        </h1>
       </div>
      )}
@@ -331,13 +330,13 @@ export const TodoWrapper = () => {
     />
 
     <ModalConfirm
-     deskripsi={"Do you want to delete this Task?"}
+     deskripsi={`${todos.find((c) => c.id === IdWasDelete)?.todoTask} will be deleted?`}
      isOpen={IsModalOpen}
      onClose={() => setIsModalOpen(false)}
      onConfirm={() => deleteTask(IdWasDelete)}
     />
     <ModalConfirm
-     deskripsi={"Do you want to delete this List?"}
+     deskripsi={`${categories.find((c) => c.id === idListDelete)?.name} will be deleted?`}
      isOpen={isCofirmDeleteList}
      onClose={() => setIsConfirmDeleteList(false)}
      onConfirm={() => handleDelete(idListDelete)}
